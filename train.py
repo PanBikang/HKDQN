@@ -52,19 +52,16 @@ DELAY_REWARD = 1
 
 
 def run_episode(hp, algorithm,agent,act_rmp_correct, move_rmp_correct,PASS_COUNT,paused):
-    print("start!")
     restart()
     # learn while load game
-    for i in range(80):
+    for i in range(5000):
         if (len(move_rmp_correct) > MEMORY_WARMUP_SIZE):
-            print("move learning")
             minibatch = move_rmp_correct.sample(BATCH_SIZE)
             for experience in minibatch:
                 batch_station, batch_actions, batch_reward, batch_next_station, batch_done = experience
                 algorithm.move_learn(batch_station,batch_actions,batch_reward,batch_next_station,batch_done)
 
         if (len(act_rmp_correct) > MEMORY_WARMUP_SIZE):
-            print("action learning")
             minibatch = act_rmp_correct.sample(BATCH_SIZE)
             for experience in minibatch:
                 batch_station, batch_actions, batch_reward, batch_next_station, batch_done = experience
@@ -189,16 +186,14 @@ def run_episode(hp, algorithm,agent,act_rmp_correct, move_rmp_correct,PASS_COUNT
 
     thread1.stop()
 
-    for i in range(500):
+    for i in range(5000):
         if (len(move_rmp_correct) > MEMORY_WARMUP_SIZE):
-            print("move learning")
             minibatch = move_rmp_correct.sample(BATCH_SIZE)
             for experience in minibatch:
                 batch_station, batch_actions, batch_reward, batch_next_station, batch_done = experience
                 algorithm.move_learn(batch_station, batch_actions, batch_reward, batch_next_station, batch_done)
 
         if (len(act_rmp_correct) > MEMORY_WARMUP_SIZE):
-            print("action learning")
             minibatch = act_rmp_correct.sample(BATCH_SIZE)
             for experience in minibatch:
                 batch_station, batch_actions, batch_reward, batch_next_station, batch_done = experience
