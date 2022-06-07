@@ -34,8 +34,8 @@ ACTION_DIM = 7
 FRAMEBUFFERSIZE = 4
 INPUT_SHAPE = (FRAMEBUFFERSIZE, HEIGHT, WIDTH, 3)
 
-MEMORY_SIZE = 200  # replay memory的大小，越大越占用内存
-MEMORY_WARMUP_SIZE = 24  # replay_memory 里需要预存一些经验数据，再从里面sample一个batch的经验让agent去learn
+MEMORY_SIZE = 20000  # replay memory的大小，越大越占用内存
+MEMORY_WARMUP_SIZE = 240  # replay_memory 里需要预存一些经验数据，再从里面sample一个batch的经验让agent去learn
 BATCH_SIZE = 10  # 每次给agent learn的数据数量，从replay memory随机里sample一批数据出来
 LEARNING_RATE = 0.00001  # 学习率
 GAMMA = 0
@@ -189,7 +189,7 @@ def run_episode(hp, algorithm,agent,act_rmp_correct, move_rmp_correct,PASS_COUNT
 
     thread1.stop()
 
-    for i in range(80):
+    for i in range(500):
         if (len(move_rmp_correct) > MEMORY_WARMUP_SIZE):
             print("move learning")
             minibatch = move_rmp_correct.sample(BATCH_SIZE)
@@ -213,7 +213,7 @@ def run_episode(hp, algorithm,agent,act_rmp_correct, move_rmp_correct,PASS_COUNT
         #     # print("action learning")
         #     batch_station,batch_actions,batch_reward,batch_next_station,batch_done = act_rmp_wrong.sample(1)
         #     algorithm.act_learn(batch_station,batch_actions,batch_reward,batch_next_station,batch_done)
-
+    time.sleep(3)
     return total_reward, step, PASS_COUNT, self_hp
 
 
