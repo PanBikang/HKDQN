@@ -55,7 +55,7 @@ def run_episode(hp, algorithm,agent,act_rmp_correct, move_rmp_correct,PASS_COUNT
     print("start!")
     restart()
     # learn while load game
-    for i in range(8):
+    for i in range(80):
         if (len(move_rmp_correct) > MEMORY_WARMUP_SIZE):
             print("move learning")
             minibatch = move_rmp_correct.sample(BATCH_SIZE)
@@ -189,7 +189,7 @@ def run_episode(hp, algorithm,agent,act_rmp_correct, move_rmp_correct,PASS_COUNT
 
     thread1.stop()
 
-    for i in range(8):
+    for i in range(80):
         if (len(move_rmp_correct) > MEMORY_WARMUP_SIZE):
             print("move learning")
             minibatch = move_rmp_correct.sample(BATCH_SIZE)
