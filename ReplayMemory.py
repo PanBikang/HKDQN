@@ -23,7 +23,7 @@ class ReplayMemory:
     def sample(self,batch_size):
         # random batch
         mini_batch = random.sample(self.buffer, batch_size)
-
+        return mini_batch
 
         # continually batches
         # rd = random.randint(0, len(self.buffer) - batch_size)

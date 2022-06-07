@@ -57,13 +57,17 @@ def run_episode(hp, algorithm,agent,act_rmp_correct, move_rmp_correct,PASS_COUNT
     for i in range(8):
         if (len(move_rmp_correct) > MEMORY_WARMUP_SIZE):
             # print("move learning")
-            batch_station,batch_actions,batch_reward,batch_next_station,batch_done = move_rmp_correct.sample(BATCH_SIZE)
-            algorithm.move_learn(batch_station,batch_actions,batch_reward,batch_next_station,batch_done)   
+            minibatch = move_rmp_correct.sample(BATCH_SIZE)
+            for experience in minibatch:
+                batch_station, batch_actions, batch_reward, batch_next_station, batch_done = experience
+                algorithm.move_learn(batch_station,batch_actions,batch_reward,batch_next_station,batch_done)
 
         if (len(act_rmp_correct) > MEMORY_WARMUP_SIZE):
             # print("action learning")
-            batch_station,batch_actions,batch_reward,batch_next_station,batch_done = act_rmp_correct.sample(BATCH_SIZE)
-            algorithm.act_learn(batch_station,batch_actions,batch_reward,batch_next_station,batch_done)
+            minibatch = act_rmp_correct.sample(BATCH_SIZE)
+            for experience in minibatch:
+                batch_station, batch_actions, batch_reward, batch_next_station, batch_done = experience
+                algorithm.act_learn(batch_station,batch_actions,batch_reward,batch_next_station,batch_done)
 
     
     step = 0
@@ -187,14 +191,18 @@ def run_episode(hp, algorithm,agent,act_rmp_correct, move_rmp_correct,PASS_COUNT
     for i in range(8):
         if (len(move_rmp_correct) > MEMORY_WARMUP_SIZE):
             # print("move learning")
-            batch_station,batch_actions,batch_reward,batch_next_station,batch_done = move_rmp_correct.sample(BATCH_SIZE)
-            algorithm.move_learn(batch_station,batch_actions,batch_reward,batch_next_station,batch_done)   
+            minibatch = move_rmp_correct.sample(BATCH_SIZE)
+            for experience in minibatch:
+                batch_station, batch_actions, batch_reward, batch_next_station, batch_done = experience
+                algorithm.move_learn(batch_station, batch_actions, batch_reward, batch_next_station, batch_done)
 
         if (len(act_rmp_correct) > MEMORY_WARMUP_SIZE):
             # print("action learning")
-            batch_station,batch_actions,batch_reward,batch_next_station,batch_done = act_rmp_correct.sample(BATCH_SIZE)
-            algorithm.act_learn(batch_station,batch_actions,batch_reward,batch_next_station,batch_done)
-        
+            minibatch = act_rmp_correct.sample(BATCH_SIZE)
+            for experience in minibatch:
+                batch_station, batch_actions, batch_reward, batch_next_station, batch_done = experience
+                algorithm.act_learn(batch_station, batch_actions, batch_reward, batch_next_station, batch_done)
+
         # if (len(move_rmp_wrong) > MEMORY_WARMUP_SIZE):
         #     # print("move learning")
         #     batch_station,batch_actions,batch_reward,batch_next_station,batch_done = move_rmp_wrong.sample(1)
