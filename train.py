@@ -258,12 +258,12 @@ if __name__ == '__main__':
         #     algorithm.replace_target()
 
         total_reward, total_step, PASS_COUNT, remind_hp = run_episode(hp, algorithm,agent,act_rmp_correct, move_rmp_correct, PASS_COUNT, paused)
-        if episode % 10 == 1:
-            model.save_model()
-        if episode % 5 == 0:
-            move_rmp_correct.save(move_rmp_correct.file_name)
-        if episode % 5 == 0:
-            act_rmp_correct.save(act_rmp_correct.file_name)
+        # if episode % 10 == 1:
+        #     # model.save_model()
+        # if episode % 5 == 0:
+        #     move_rmp_correct.save(move_rmp_correct.file_name)
+        # if episode % 5 == 0:
+        #     act_rmp_correct.save(act_rmp_correct.file_name)
         total_remind_hp += remind_hp
         print("Episode: ", episode, ", pass_count: " , PASS_COUNT, ", hp:", total_remind_hp / episode)
 
