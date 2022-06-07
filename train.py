@@ -85,7 +85,8 @@ def run_episode(hp, algorithm,agent,act_rmp_correct, move_rmp_correct,PASS_COUNT
         self_hp = hp.get_self_hp()
         if 800 < boss_hp_value <= 900 and 1 <= self_hp <= 9:
             break
-        
+    print("boss_hp_value:", boss_hp_value, ", self_hp:", self_hp)
+    begin_boss_hp_value = boss_hp_value
 
     thread1 = FrameBuffer(1, "FrameBuffer", WIDTH, HEIGHT, maxlen=FRAMEBUFFERSIZE)
     thread1.start()
@@ -185,6 +186,10 @@ def run_episode(hp, algorithm,agent,act_rmp_correct, move_rmp_correct,PASS_COUNT
         
 
     thread1.stop()
+    end_hp = self_hp
+    end_boss_hp = next_boss_hp_value
+    hp_exchange_rate = (begin_boss_hp_value - end_boss_hp) / (9 - end_hp)
+    print("hp exchange rate: ", hp_exchange_rate)
 
     for i in range(5000):
         if (len(move_rmp_correct) > MEMORY_WARMUP_SIZE):
@@ -209,7 +214,7 @@ def run_episode(hp, algorithm,agent,act_rmp_correct, move_rmp_correct,PASS_COUNT
         #     batch_station,batch_actions,batch_reward,batch_next_station,batch_done = act_rmp_wrong.sample(1)
         #     algorithm.act_learn(batch_station,batch_actions,batch_reward,batch_next_station,batch_done)
     time.sleep(3)
-    return total_reward, step, PASS_COUNT, self_hp
+    return total_reward, step, PASS_COUNT, self_hp, hp_exchange_rate
 
 
 if __name__ == '__main__':
@@ -246,14 +251,17 @@ if __name__ == '__main__':
     max_episode = 30000
     # 开始训练
     episode = 0
-    PASS_COUNT = 0                                       # pass count
+    PASS_COUNT = 0 # pass count
+    all_exchange_rate = 0
     while episode < max_episode:    # 训练max_episode个回合，test部分不计算入episode数量
         # 训练
         episode += 1     
         # if episode % 20 == 1:
         #     algorithm.replace_target()
 
-        total_reward, total_step, PASS_COUNT, remind_hp = run_episode(hp, algorithm,agent,act_rmp_correct, move_rmp_correct, PASS_COUNT, paused)
+        total_reward, total_step, PASS_COUNT, remind_hp, exchange_rate = run_episode(hp, algorithm,agent,act_rmp_correct,
+                                                                                     move_rmp_correct, PASS_COUNT, paused)
+        all_exchange_rate += exchange_rate
         # if episode % 10 == 1:
         #     # model.save_model()
         # if episode % 5 == 0:
@@ -261,5 +269,6 @@ if __name__ == '__main__':
         # if episode % 5 == 0:
         #     act_rmp_correct.save(act_rmp_correct.file_name)
         total_remind_hp += remind_hp
-        print("Episode: ", episode, ", pass_count: " , PASS_COUNT, ", hp:", total_remind_hp / episode)
+        print("Episode: ", episode, ", pass_count: " , PASS_COUNT, ", hp:", total_remind_hp / episode,
+              ", average exchange rate:", all_exchange_rate / episode)
 
