@@ -115,7 +115,7 @@ def run_episode(hp, algorithm,agent,act_rmp_correct, move_rmp_correct,PASS_COUNT
         last_hornet_y = hornet_y
 
         # determine the action for this episode?
-        move, action = agent.sample(stations, soul, hornet_x, hornet_y, player_x, hornet_skill1)
+        move, action = agent.sample(stations, soul, hornet_x, hornet_y, player_x, player_y, hornet_skill1)
 
         
         # action = 0

@@ -32,7 +32,7 @@ class Agent:
         else:
             return sorted([(self.getQValue(state, action), action) for action in self.getLegalActions(state)], key = lambda x: x[0], reverse=True)[0][1]      
     
-    def sample(self, station, soul, hornet_x, hornet_y, player_x, hornet_skill1):
+    def sample(self, station, soul, hornet_x, hornet_y, player_x, player_y, hornet_skill1):
         
         # state = station
         # state = (abs(hornet_x - player_x)+hornet_y, hornet_skill1)
@@ -44,13 +44,13 @@ class Agent:
         pred_move, pred_act = self.algorithm.model.predict(state)
         # print(pred_move)
         # print(self.e_greed)
-        pred_move = pred_move.numpy()
-        pred_act = pred_act.numpy()
+        # pred_move = pred_move.numpy()
+        # pred_act = pred_act.numpy()
         sample = np.random.rand()  
         if sample < self.e_greed:
             move = self.better_move(hornet_x, player_x, hornet_skill1)
         else:
-            move = np.argmax(pred_move)
+            move = pred_move
         self.e_greed = max(
             0.03, self.e_greed - self.e_greed_decrement)  
 
@@ -58,12 +58,12 @@ class Agent:
         if sample < self.e_greed:   # explore
             act = self.better_action(soul, hornet_x, hornet_y, player_x, hornet_skill1)
         else:   # exploit
-            act = np.argmax(pred_act)
-            if soul < 33:
-                if act == 4 or act == 5:
-                    pred_act[0][4] = -30
-                    pred_act[0][5] = -30
-            act = np.argmax(pred_act)
+            act = pred_act
+            # if soul < 33:
+            #     if act == 4 or act == 5:
+            #         pred_act[0][4] = -30
+            #         pred_act[0][5] = -30
+            # act = np.argmax(pred_act)
 
         self.e_greed = max(
             0.03, self.e_greed - self.e_greed_decrement)  
