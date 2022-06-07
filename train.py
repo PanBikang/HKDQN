@@ -8,8 +8,8 @@ import time
 import collections
 import matplotlib.pyplot as plt
 
-from Model import Model
-from DQN import DQN
+from Model import Model, Q_Learn_Model, Q_table
+from DQN import DQN, Q_Learn
 from Agent import Agent
 from ReplayMemory import ReplayMemory
 
@@ -220,14 +220,14 @@ if __name__ == '__main__':
     move_rmp_correct = ReplayMemory(MEMORY_SIZE,file_name='./move_memory')         # experience pool
     
     # new model, if exist save file, load it
-    model = Model(INPUT_SHAPE, ACTION_DIM)  
+    model = Q_Learn_Model(INPUT_SHAPE, ACTION_DIM)
 
     # Hp counter
     hp = Hp_getter()
 
 
     model.load_model()
-    algorithm = DQN(model, gamma=GAMMA, learnging_rate=LEARNING_RATE)
+    algorithm = Q_Learn(model, gamma=GAMMA, learnging_rate=LEARNING_RATE)
     agent = Agent(ACTION_DIM,algorithm,e_greed=0.12,e_greed_decrement=1e-6)
     
     # get user input, no need anymore
@@ -249,7 +249,7 @@ if __name__ == '__main__':
 
         total_reward, total_step, PASS_COUNT, remind_hp = run_episode(hp, algorithm,agent,act_rmp_correct, move_rmp_correct, PASS_COUNT, paused)
         if episode % 10 == 1:
-            model.save_mode()
+            model.save_model()
         if episode % 5 == 0:
             move_rmp_correct.save(move_rmp_correct.file_name)
         if episode % 5 == 0:

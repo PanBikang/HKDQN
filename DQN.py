@@ -1,12 +1,13 @@
 import tensorflow as tf
 import numpy as np
+from Model import Q_Learn_Model, Q_table
 
 class Q_Learn:
     def __init__(self,model,gamma=0.9,learnging_rate=0.0001):
-        self.model = model  # model means q-table here
+        self.model: Q_Learn_Model = model  # model means q-table here
         self.act_dim = model.act_dim
-        self.act_model = model.act_model
-        self.move_model = model.move_model
+        self.act_model: Q_table = model.act_model
+        self.move_model: Q_table = model.move_model
         self.gamma = gamma
         self.lr = learnging_rate
         self.act_global_step = 0
@@ -29,19 +30,13 @@ class Q_Learn:
         self.act_train_step(action, obs, reward, next_obs)
         self.act_global_step += 1
 
-    def act_train_step(self,action,features,labels, next_state):
+    def act_train_step(self,action, state, reward, next_state):
         """ 训练步骤
         """
-        # TODO: q-learning
-        with tf.GradientTape() as tape:
-            # 计算 Q(s,a) 与 target_Q的均方差，得到loss
-            predictions = self.act_model(features,training=True)
-            enum_action = list(enumerate(action))
-            pred_action_value = tf.gather_nd(predictions,indices=enum_action)
-            loss = self.act_model.loss_func(labels,pred_action_value)
-        gradients = tape.gradient(loss,self.act_model.trainable_variables)
-        self.act_model.optimizer.apply_gradients(zip(gradients,self.act_model.trainable_variables))
-        self.model.act_loss.append(loss)
+        new_value = (1 - self.lr) * self.act_model.getQValue(state, action) + \
+                    self.lr * (reward + self.gamma * self.act_model.getStateQValue(next_state))
+        self.act_model.setQValue(state, action, new_value)
+
 
     def move_predict(self, obs):
         """ 使用self.move_model的value网络来获取 [Q(s,a1),Q(s,a2),...]
@@ -54,18 +49,12 @@ class Q_Learn:
         self.move_train_step(action, obs, reward, next_obs)
         self.move_global_step += 1
 
-    def move_train_step(self,action,features,labels, next_state):
+    def move_train_step(self,action, state, reward, next_state):
         """ 训练步骤
         """
-        with tf.GradientTape() as tape:
-            # 计算 Q(s,a) 与 target_Q的均方差，得到loss
-            predictions = self.move_model(features,training=True)
-            enum_action = list(enumerate(action))
-            pred_action_value = tf.gather_nd(predictions,indices=enum_action)
-            loss = self.move_model.loss_func(labels,pred_action_value)
-        gradients = tape.gradient(loss,self.move_model.trainable_variables)
-        self.move_model.optimizer.apply_gradients(zip(gradients,self.move_model.trainable_variables))
-        self.model.move_loss.append(loss)
+        new_value = (1 - self.lr) * self.move_model.getQValue(state, action) + \
+                    self.lr * (reward + self.gamma * self.move_model.getStateQValue(next_state))
+        self.move_model.setQValue(state, action, new_value)
 
 
 

@@ -34,15 +34,14 @@ class Agent:
     
     def sample(self, station, soul, hornet_x, hornet_y, player_x, hornet_skill1):
         
-        state = station
+        # state = station
         # state = (abs(hornet_x - player_x)+hornet_y, hornet_skill1)
         # state = (manhattan_distance, skill)
         # state should contain hornet_x hornet_y, player_x, player_y, screenshot of hornet.
-
+        state = (int(player_x), int(player_y), int(hornet_x), int(hornet_y))
         # print('current state:', state)
 
-        
-        pred_move, pred_act = self.algorithm.model.predict(station) # TODO: use q-learning instead of DQN?
+        pred_move, pred_act = self.algorithm.model.predict(state)
         # print(pred_move)
         # print(self.e_greed)
         pred_move = pred_move.numpy()

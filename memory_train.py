@@ -103,7 +103,7 @@ if __name__ == '__main__':
                 batch_station,batch_actions,batch_reward,batch_next_station,batch_done = move_rmp_correct.sample(BATCH_SIZE)
                 algorithm.move_learn(batch_station,batch_actions,batch_reward,batch_next_station,batch_done)
 
-    model.save_mode()
+    model.save_model()
     # while episode < max_episode:    # 训练max_episode个回合，test部分不计算入episode数量
     #     # 训练
            
