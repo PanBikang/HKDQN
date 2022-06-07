@@ -41,9 +41,11 @@ class ReplayMemory:
             next_obs_batch.append(s_p)
             done_batch.append(done)
 
-        return np.array(obs_batch).astype('float32'), \
-            np.array(action_batch).astype('int32'), np.array(reward_batch).astype('float32'),\
-            np.array(next_obs_batch).astype('float32'), np.array(done_batch).astype('float32')
+        # return np.array(obs_batch).astype('float32'), \
+        #     np.array(action_batch).astype('int32'), np.array(reward_batch).astype('float32'),\
+        #     np.array(next_obs_batch).astype('float32'), np.array(done_batch).astype('float32')
+
+        return obs_batch, action_batch, reward_batch, next_obs_batch, done_batch
 
     def save(self,file_name):
         count = 0
