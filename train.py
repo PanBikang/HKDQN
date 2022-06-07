@@ -144,7 +144,7 @@ def run_episode(hp, algorithm,agent,act_rmp_correct, move_rmp_correct,PASS_COUNT
 
         DelayMoveReward.append(move_reward)
         DelayActReward.append(act_reward)
-        DelayStation.append(stations)
+        DelayStation.append(state)
         DelayActions.append(action)
         DelayDirection.append(move)
 
@@ -160,10 +160,9 @@ def run_episode(hp, algorithm,agent,act_rmp_correct, move_rmp_correct,PASS_COUNT
             # if mean(DelayActReward) <= 0:
             #     act_rmp_wrong.append((DelayStation[0],DelayActions[0],mean(DelayActReward),DelayStation[1],done))
 
-        station = next_station
+
         self_hp = next_self_hp
-        boss_hp_value = next_boss_hp_value
-            
+
 
         # if (len(act_rmp) > MEMORY_WARMUP_SIZE and int(step/ACTION_SEQ) % LEARN_FREQ == 0):
         #     print("action learning")
