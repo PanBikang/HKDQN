@@ -152,13 +152,19 @@ def action_judge(boss_blood, next_boss_blood, self_blood, next_self_blood, next_
         boss_blood_reward = count_boss_reward(next_boss_blood, boss_blood)
         reward = self_blood_reward + boss_blood_reward + distance_reward + skill_reward
         if action == 4:
-            reward *= 1.5
+            if reward > 0:
+                reward *= 1.5
+            else:
+                reward = float(reward / 1.5)
         elif action == 5:
-            reward *= 0.5
+            if reward > 0:
+                reward *= 0.5
+            else:
+                reward = float(reward / 0.5)
         done = 1
         return reward, done
-    #boss dead
 
+    #boss dead
     elif next_boss_blood <= 0 or next_boss_blood > 900:   
         skill_reward = act_skill_reward(hornet_skill1, action, next_hornet_x, next_hornet_y, next_player_x)
         distance_reward = act_distance_reward(action, next_player_x, next_hornet_x, next_hornet_y)
@@ -166,9 +172,15 @@ def action_judge(boss_blood, next_boss_blood, self_blood, next_self_blood, next_
         boss_blood_reward = count_boss_reward(next_boss_blood, boss_blood)
         reward = self_blood_reward + boss_blood_reward + distance_reward + skill_reward
         if action == 4:
-            reward *= 1.5
+            if reward > 0:
+                reward *= 1.5
+            else:
+                reward = float(reward / 1.5)
         elif action == 5:
-            reward *= 0.5
+            if reward > 0:
+                reward *= 0.5
+            else:
+                reward = float(reward / 0.5)
         done = 2
         return reward, done
     # playing
@@ -180,9 +192,15 @@ def action_judge(boss_blood, next_boss_blood, self_blood, next_self_blood, next_
 
         reward = self_blood_reward + boss_blood_reward + distance_reward + skill_reward
         if action == 4:
-            reward *= 1.5
+            if reward > 0:
+                reward *= 1.5
+            else:
+                reward = float(reward / 1.5)
         elif action == 5:
-            reward *= 0.5
+            if reward > 0:
+                reward *= 0.5
+            else:
+                reward = float(reward / 0.5)
         done = 0
         return reward, done
 
