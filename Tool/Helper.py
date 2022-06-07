@@ -81,31 +81,31 @@ def move_judge(self_blood, next_self_blood, player_x, next_player_x, hornet_x, n
                 s = 1
             # if direction is correct and use long move
             if dire * s == 1 and move < 2:
-                return 10
+                return -10
         # do not do long move while distance > 5
         else:
             if move >= 2:
-                return 10
-        return -10
+                return -10
+        return -30
 
     dis = abs(player_x - hornet_x)
     dire = player_x - hornet_x
     if move == 0:
         if (dis > 5 and dire > 0) or (dis < 2.5 and dire < 0):
-            return 10
+            return -10
     elif move == 1:
         if (dis > 5 and dire < 0) or (dis < 2.5 and dire > 0):
-            return 10
+            return -10
     elif move == 2:
         if dis > 2.5 and dis < 5 and dire > 0:
-            return 10
+            return -10
     elif move == 3:
         if dis > 2.5 and dis < 5 and dire < 0:
-            return 10
+            return -10
             
         
     # reward = direction_reward(move, player_x, hornet_x) + distance_reward(move, player_x, hornet_x)
-    return -10
+    return -30
 
 
 
@@ -114,7 +114,7 @@ def move_judge(self_blood, next_self_blood, player_x, next_player_x, hornet_x, n
 
 
 def act_skill_reward(hornet_skill1, action, next_hornet_x, next_hornet_y, next_player_x):
-    skill_reward = 0
+    skill_reward = -3
     if hornet_skill1:
         if action == 2 or action == 3:
             skill_reward -= 5
@@ -124,7 +124,7 @@ def act_skill_reward(hornet_skill1, action, next_hornet_x, next_hornet_y, next_p
     return skill_reward
 
 def act_distance_reward(action, next_player_x, next_hornet_x, next_hornet_y):
-    distance_reward = 0
+    distance_reward = -2
     if abs(next_player_x - next_hornet_x) < 12:
         if abs(next_player_x - next_hornet_x) > 6:
             if action >= 2 and action <= 3:

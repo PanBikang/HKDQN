@@ -131,8 +131,10 @@ def run_episode(hp, algorithm,agent,act_rmp_correct, move_rmp_correct,PASS_COUNT
         next_self_hp = hp.get_self_hp()
         next_player_x, next_player_y = hp.get_play_location()
         next_hornet_x, next_hornet_y = hp.get_hornet_location()
+        next_soul = hp.get_souls()
 
-
+        new_state = (int(next_player_x), int(next_player_y), int(next_hornet_x), int(next_hornet_y),
+                     int(next_self_hp), int(next_boss_hp_value), int(next_soul))
         # get reward
         move_reward = Tool.Helper.move_judge(self_hp, next_self_hp, player_x, next_player_x, hornet_x, next_hornet_x, move, hornet_skill1)
         # print(move_reward)
