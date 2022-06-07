@@ -113,9 +113,10 @@ def run_episode(hp, algorithm,agent,act_rmp_correct, move_rmp_correct,PASS_COUNT
         if last_hornet_y > 32 and last_hornet_y < 32.5 and hornet_y > 32 and hornet_y < 32.5:
             hornet_skill1 = True
         last_hornet_y = hornet_y
-
+        state = (int(player_x), int(player_y), int(hornet_x), int(hornet_y),
+                 int(self_hp), int(boss_hp_value), int(soul))
         # determine the action for this episode?
-        move, action = agent.sample(stations, soul, hornet_x, hornet_y, player_x, player_y, hornet_skill1)
+        move, action = agent.sample(stations, state, hornet_skill1)
 
         
         # action = 0

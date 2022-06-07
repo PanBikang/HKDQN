@@ -32,13 +32,13 @@ class Agent:
         else:
             return sorted([(self.getQValue(state, action), action) for action in self.getLegalActions(state)], key = lambda x: x[0], reverse=True)[0][1]      
     
-    def sample(self, station, soul, hornet_x, hornet_y, player_x, player_y, hornet_skill1):
+    def sample(self, station, state, hornet_skill1):
         
         # state = station
         # state = (abs(hornet_x - player_x)+hornet_y, hornet_skill1)
         # state = (manhattan_distance, skill)
         # state should contain hornet_x hornet_y, player_x, player_y, screenshot of hornet.
-        state = (int(player_x), int(player_y), int(hornet_x), int(hornet_y))
+        player_x, player_y, hornet_x, hornet_y, self_hp, boss_hp, soul = state
         # print('current state:', state)
 
         pred_move, pred_act = self.algorithm.model.predict(state)
